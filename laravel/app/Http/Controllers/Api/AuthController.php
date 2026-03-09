@@ -16,7 +16,7 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => $request->password,
-            'name' => $request->role,
+            'role' => $request->role,
         ]);
 
         $token = $user->createToken('auth_token')->plainTextToken;
@@ -48,9 +48,5 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
-
-        return response()->json([
-            'message' => 'Logged out'
-        ]);
     }
 }
