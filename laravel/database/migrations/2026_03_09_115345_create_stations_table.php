@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('location');
-            $table->integer('power_kw');
+            $table->decimal('power');
             $table->boolean('is_available')->default(true);
 
             $table->foreignId('connector_type_id')->constrained()->cascadeOnDelete();
