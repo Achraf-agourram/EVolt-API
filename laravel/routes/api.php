@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\StationController;
 use Illuminate\Support\Facades\Route;
 
@@ -11,6 +12,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/stations', [StationController::class, 'search']);
+    Route::post('/reservations', [ReservationController::class, 'book']);
 
 });
 
