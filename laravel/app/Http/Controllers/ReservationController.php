@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreReservationRequest;
 use App\Http\Requests\UpdateReservationRequest;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
@@ -9,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ReservationController extends Controller
 {
-    public function book (Request $request)
+    public function book (StoreReservationRequest $request)
     {
         $checkReservedStations = Reservation::where('station_id', $request->station_id)->where('status', '!=', 'cancelled')->whereBetween('start_time', [$request->start_time, $request->end_time])->orWhereBetween('end_time', [$request->start_time, $request->end_time])->exists();
 
