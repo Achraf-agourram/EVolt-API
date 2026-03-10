@@ -50,8 +50,14 @@ class StationController extends Controller
     public function destroy($id)
     {
         if (Auth::user()->role !== 'admin') return response()->json(['message' => 'Unauthorized'], 403);
-        
+
         $station = Station::findOrFail($id);
+
+        if ($station->reservations()->where('status','reserved')->exists()) {
+            return response()->json([
+                'message' => 'Cannot delete station with active reservations'
+            ], 400);
+        }
 
         $station->delete();
 
