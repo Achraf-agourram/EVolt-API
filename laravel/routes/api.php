@@ -12,7 +12,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/stations', [StationController::class, 'search']);
-    Route::post('/reservations', [ReservationController::class, 'book']);
+    Route::post('/book', [ReservationController::class, 'book']);
 
 });
 
