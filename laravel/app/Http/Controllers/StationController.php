@@ -46,4 +46,17 @@ class StationController extends Controller
 
         return response()->json(['message' => 'Station updated successfully']);
     }
+
+    public function destroy($id)
+    {
+        if (Auth::user()->role !== 'admin') return response()->json(['message' => 'Unauthorized'], 403);
+        
+        $station = Station::findOrFail($id);
+
+        $station->delete();
+
+        return response()->json([
+            'message' => 'Station deleted successfully'
+        ]);
+    }
 }
