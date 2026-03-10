@@ -19,7 +19,7 @@ class StationController extends Controller
             $query->where('location', $request->location);
         }
 
-        $stations = $query->get();
+        $stations = $query->where('is_available', true)->get();
 
         return response()->json($stations);
     }
