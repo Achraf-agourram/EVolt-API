@@ -43,6 +43,12 @@ class ReservationController extends Controller
             ], 403);
         }
 
+        if (now()->greaterThanOrEqualTo($reservation->start_time)) {
+            return response()->json([
+                'message' => 'Cannot cancel a reservation that already started'
+            ], 403);
+        }
+
         $reservation->status = 'cancelled';
         $reservation->save();
 
