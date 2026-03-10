@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreStationRequest;
+use App\Http\Requests\UpdateStationRequest;
 use App\Models\Station;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -33,5 +34,16 @@ class StationController extends Controller
         $station = Station::create($request->validated());
 
         return response()->json(['message' => 'Station created successfully'], 201);
+    }
+
+    public function update(UpdateStationRequest $request, $id)
+    {
+        if (Auth::user()->role !== 'admin') return response()->json(['message' => 'Unauthorized'], 403);
+
+        $station = Station::findOrFail($id);
+
+        $station->update($request->validated());
+
+        return response()->json(['message' => 'Station updated successfully']);
     }
 }

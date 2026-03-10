@@ -17,6 +17,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::patch('/reservations/{id}/cancel', [ReservationController::class, 'cancel']);
     Route::get('/history', [ReservationController::class, 'history']);
     Route::post('/station', [StationController::class, 'store']);
+    Route::patch('/station/{id}', [StationController::class, 'update']);
 
 });
 
