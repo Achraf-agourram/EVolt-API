@@ -29,8 +29,6 @@ class StationController extends Controller
 
     public function store (StoreStationRequest $request)
     {
-        if (Auth::user()->role !== 'admin') return response()->json(['message' => 'Unauthorized'], 403);
-
         $station = Station::create($request->validated());
 
         return response()->json(['message' => 'Station created successfully'], 201);
@@ -38,8 +36,6 @@ class StationController extends Controller
 
     public function update(UpdateStationRequest $request, $id)
     {
-        if (Auth::user()->role !== 'admin') return response()->json(['message' => 'Unauthorized'], 403);
-
         $station = Station::findOrFail($id);
 
         $station->update($request->validated());
@@ -49,8 +45,6 @@ class StationController extends Controller
 
     public function destroy($id)
     {
-        if (Auth::user()->role !== 'admin') return response()->json(['message' => 'Unauthorized'], 403);
-
         $station = Station::findOrFail($id);
 
         if ($station->reservations()->where('status','reserved')->exists()) {
