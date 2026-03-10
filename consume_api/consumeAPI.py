@@ -19,7 +19,7 @@ def login(email, password):
     token = result.get("token")
     return token
 
-TOKEN = login()
+TOKEN = login('admin@gmail.com', 'password')
 
 
 def register():
