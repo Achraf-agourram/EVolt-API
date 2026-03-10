@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreStationRequest;
 use App\Models\Station;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class StationController extends Controller
 {
@@ -27,6 +28,16 @@ class StationController extends Controller
 
     public function store (StoreStationRequest $request)
     {
-        
+        if (Auth::user()->role !== 'admin') return response()->json(['message' => 'Unauthorized'], 403);
+
+        $station = Station::create([
+            'name' => $request->name,
+            'city' => $request->city,
+            'location' => $request->location,
+            'power' => $request->power,
+            'connector_type_id' => $request->connector_type_id
+        ]);
+
+        return response()->json(['message' => 'Station created successfully'], 201);
     }
 }

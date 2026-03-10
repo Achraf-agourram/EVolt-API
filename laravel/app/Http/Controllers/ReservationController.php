@@ -54,8 +54,7 @@ class ReservationController extends Controller
         $reservation->save();
 
         return response()->json([
-            'message' => 'Reservation cancelled successfully',
-            'reservation' => $reservation
+            'message' => 'Reservation cancelled successfully'
         ]);
     }
 
@@ -79,8 +78,7 @@ class ReservationController extends Controller
         ]);
 
         return response()->json([
-            'message' => 'Reservation updated successfully',
-            'reservation' => $reservation
+            'message' => 'Reservation updated successfully'
         ]);
     }
 
