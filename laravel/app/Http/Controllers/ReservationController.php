@@ -26,4 +26,29 @@ class ReservationController extends Controller
             'reservation' => $reservation
         ], 201);
     }
+
+    public function cancel ($id)
+    {
+        $reservation = Reservation::findOrFail($id);
+
+        if ($reservation->user_id !== auth()->id()) {
+            return response()->json([
+                'message' => 'Unauthorized'
+            ], 403);
+        }
+
+        if ($reservation->status === 'completed') {
+            return response()->json([
+                'message' => 'Completed reservations cannot be cancelled'
+            ], 403);
+        }
+
+        $reservation->status = 'cancelled';
+        $reservation->save();
+
+        return response()->json([
+            'message' => 'Reservation cancelled successfully',
+            'reservation' => $reservation
+        ]);
+    }
 }
