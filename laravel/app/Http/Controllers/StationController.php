@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreStationRequest;
 use App\Models\Station;
 use Illuminate\Http\Request;
 
@@ -22,5 +23,10 @@ class StationController extends Controller
         $stations = $query->where('is_available', true)->get();
 
         return response()->json($stations);
+    }
+
+    public function store (StoreStationRequest $request)
+    {
+        
     }
 }

@@ -86,7 +86,7 @@ class ReservationController extends Controller
 
     public function history ()
     {
-        $sessions = auth()->user()->reservations()->where('status', 'completed')->get();
+        $sessions = Auth::user()->reservations()->where('status', 'completed')->get();
 
         return $sessions;
     }
