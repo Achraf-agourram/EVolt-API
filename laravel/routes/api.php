@@ -15,6 +15,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/book', [ReservationController::class, 'book']);
     Route::put('/reservations/{id}', [ReservationController::class, 'update']);
     Route::patch('/reservations/{id}/cancel', [ReservationController::class, 'cancel']);
+    Route::get('/history', [ReservationController::class, 'history']);
 
 });
 

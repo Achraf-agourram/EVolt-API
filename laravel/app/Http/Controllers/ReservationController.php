@@ -83,4 +83,11 @@ class ReservationController extends Controller
             'reservation' => $reservation
         ]);
     }
+
+    public function history ()
+    {
+        $sessions = auth()->user()->reservations()->where('status', 'completed')->get();
+
+        return $sessions;
+    }
 }
