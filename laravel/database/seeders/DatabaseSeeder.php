@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             connectorTypeSeeder::class,
+            StationSeeder::class,
         ]);
     }
 }

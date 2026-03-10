@@ -13,6 +13,43 @@ class StationSeeder extends Seeder
      */
     public function run(): void
     {
-        
+        DB::table('stations')->insert([
+            [
+                'name' => 'Marrakech EV Station',
+                'location' => 'Gueliz',
+                'power' => 50,
+                'is_available' => true,
+                'connector_type_id' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Menara Charging Point',
+                'location' => 'Menara Mall',
+                'power' => 120,
+                'is_available' => true,
+                'connector_type_id' => 2,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Airport Fast Charge',
+                'location' => 'Marrakech Airport',
+                'power' => 150,
+                'is_available' => false,
+                'connector_type_id' => 4,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'City Center Charger',
+                'location' => 'Medina',
+                'power' => 22,
+                'is_available' => true,
+                'connector_type_id' => 3,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+        ]);
     }
 }
