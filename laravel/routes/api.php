@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\StationController;
+use App\Http\Controllers\StatisticsController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/register', [AuthController::class, 'register']);
@@ -12,6 +13,7 @@ Route::middleware(['auth:sanctum','admin'])->group(function () {
     Route::post('/station', [StationController::class, 'store']);
     Route::patch('/station/{id}', [StationController::class, 'update']);
     Route::delete('/station/{id}', [StationController::class, 'destroy']);
+    Route::get('/admin/statistics', [StatisticsController::class,'index']);
 });
 
 Route::middleware('auth:sanctum')->group(function () {
