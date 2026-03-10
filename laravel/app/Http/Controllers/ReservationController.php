@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateReservationRequest;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -10,9 +11,9 @@ class ReservationController extends Controller
 {
     public function book (Request $request)
     {
-        $checkReservedStation = Reservation::where('station_id', $request->station_id)->where('status', '!=', 'cancelled')->whereBetween('start_time', [$request->start_time, $request->end_time])->orWhereBetween('end_time', [$request->start_time, $request->end_time])->exists();
+        $checkReservedStations = Reservation::where('station_id', $request->station_id)->where('status', '!=', 'cancelled')->whereBetween('start_time', [$request->start_time, $request->end_time])->orWhereBetween('end_time', [$request->start_time, $request->end_time])->exists();
 
-        if ($checkReservedStation) return response()->json(['message' => 'This station is already reserved for this time period'], 403);
+        if ($checkReservedStations) return response()->json(['message' => 'This station is already reserved for this time period'], 403);
 
         $reservation = Reservation::create([
             'user_id' => Auth::id(),
@@ -58,8 +59,28 @@ class ReservationController extends Controller
         ]);
     }
 
-    public function update ()
+    public function update (UpdateReservationRequest $request, $id)
     {
-        //
+        $reservation = Reservation::findOrFail($id);
+
+        if ($reservation->user_id !== Auth::id()) {
+            return response()->json([
+                'message' => 'Unauthorized'
+            ], 403);
+        }
+
+        $checkReservedStations = Reservation::where('station_id', $request->station_id)->where('id', '!=', $reservation->id)->where('status', '!=', 'cancelled')->whereBetween('start_time', [$request->start_time, $request->end_time])->orWhereBetween('end_time', [$request->start_time, $request->end_time])->exists();
+
+        if ($checkReservedStations) return response()->json(['message' => 'This station is already reserved for this time period'], 403);
+
+        $reservation->update([
+            'start_time' => $request->start_time,
+            'end_time' => $request->end_time
+        ]);
+
+        return response()->json([
+            'message' => 'Reservation updated successfully',
+            'reservation' => $reservation
+        ]);
     }
 }
