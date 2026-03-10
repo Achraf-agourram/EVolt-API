@@ -31,7 +31,7 @@ class ReservationController extends Controller
     {
         $reservation = Reservation::findOrFail($id);
 
-        if ($reservation->user_id !== auth()->id()) {
+        if ($reservation->user_id !== Auth::id()) {
             return response()->json([
                 'message' => 'Unauthorized'
             ], 403);
@@ -56,5 +56,10 @@ class ReservationController extends Controller
             'message' => 'Reservation cancelled successfully',
             'reservation' => $reservation
         ]);
+    }
+
+    public function update ()
+    {
+        //
     }
 }
