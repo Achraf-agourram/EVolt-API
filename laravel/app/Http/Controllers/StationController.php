@@ -30,13 +30,7 @@ class StationController extends Controller
     {
         if (Auth::user()->role !== 'admin') return response()->json(['message' => 'Unauthorized'], 403);
 
-        $station = Station::create([
-            'name' => $request->name,
-            'city' => $request->city,
-            'location' => $request->location,
-            'power' => $request->power,
-            'connector_type_id' => $request->connector_type_id
-        ]);
+        $station = Station::create($request->validated());
 
         return response()->json(['message' => 'Station created successfully'], 201);
     }

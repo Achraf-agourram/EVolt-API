@@ -11,7 +11,7 @@ class StoreStationRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -26,7 +26,6 @@ class StoreStationRequest extends FormRequest
             'city' => 'required|string',
             'location' => 'required|string',
             'power' => 'required|numeric|min:0',
-            'is_available' => 'boolean',
             'connector_type_id' => 'required|exists:connector_types,id',
         ];
     }

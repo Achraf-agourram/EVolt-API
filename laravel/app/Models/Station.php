@@ -8,10 +8,11 @@ class Station extends Model
 {
     protected $fillable = [
         'name',
+        'city',
         'location',
         'connector_type_id',
-        'power_kw',
-        'is_available'
+        'power',
+        'is_available',
     ];
 
     public function connectorType()
