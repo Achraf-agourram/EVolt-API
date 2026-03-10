@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('stations', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('city');
             $table->string('location');
             $table->decimal('power');
             $table->boolean('is_available')->default(true);
