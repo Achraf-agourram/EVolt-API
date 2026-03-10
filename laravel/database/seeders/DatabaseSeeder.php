@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             connectorTypeSeeder::class,
             StationSeeder::class,
+            ReservationSeeder::class,
         ]);
     }
 }
