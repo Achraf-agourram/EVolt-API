@@ -57,7 +57,7 @@ test('user can update booking', function () {
         'end_time' => now()->addHours(4),
     ]);
 
-    $response->assertStatus(200)->assertJson(['message' => 'Reservation updated successfully']);;
+    $response->assertStatus(200)->assertJson(['message' => 'Reservation updated successfully']);
 
 });
 

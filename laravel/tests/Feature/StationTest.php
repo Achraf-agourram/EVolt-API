@@ -117,3 +117,43 @@ test('client cannot create station', function () {
 
     $response->assertStatus(403);
 });
+
+test('admin can update station', function () {
+    $user = User::factory()->create(['role' => 'admin']);
+    Sanctum::actingAs($user);
+
+    $station = Station::factory()->create();
+
+    $data = [
+        'name' => 'FastCharge Station',
+        'city' => 'Rabat',
+        'location' => 'centre',
+        'power' => 50,
+        'is_available' => false
+    ];
+
+    $response = $this->patchJson("/api/station/{$station->id}", $data);
+
+    $response->assertStatus(200)->assertJson(['message' => 'Station updated successfully']);
+
+});
+
+test('client cannot update station', function () {
+    $user = User::factory()->create(['role' => 'client']);
+    Sanctum::actingAs($user);
+
+    $station = Station::factory()->create();
+
+    $data = [
+        'name' => 'FastCharge Station',
+        'city' => 'Rabat',
+        'location' => 'centre',
+        'power' => 50,
+        'is_available' => false
+    ];
+
+    $response = $this->patchJson("/api/station/{$station->id}", $data);
+
+    $response->assertStatus(403);
+
+});
