@@ -60,3 +60,19 @@ test('user can update booking', function () {
     $response->assertStatus(200)->assertJson(['message' => 'Reservation updated successfully']);;
 
 });
+
+test('user can view reservation history', function () {
+
+    $user = User::factory()->create();
+
+    Reservation::factory()->count(3)->create([
+        'user_id' => $user->id,
+        'status' => 'completed'
+    ]);
+
+    Sanctum::actingAs($user);
+
+    $response = $this->getJson('/api/history');
+
+    $response->assertStatus(200)->assertJsonCount(3);
+});
