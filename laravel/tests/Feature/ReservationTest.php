@@ -41,3 +41,22 @@ test('user cancel booking', function () {
     $response->assertStatus(200)->assertJson(['message' => 'Reservation cancelled successfully']);;
 
 });
+
+test('user can update booking', function () {
+
+    $user = User::factory()->create();
+
+    $reservation = Reservation::factory()->create([
+        'user_id' => $user->id
+    ]);
+
+    Sanctum::actingAs($user);
+
+    $response = $this->putJson("/api/reservations/{$reservation->id}", [
+        'start_time' => now()->addHours(3),
+        'end_time' => now()->addHours(4),
+    ]);
+
+    $response->assertStatus(200)->assertJson(['message' => 'Reservation updated successfully']);;
+
+});
