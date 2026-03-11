@@ -30,14 +30,14 @@ test('user cancel booking', function () {
 
     $user = User::factory()->create();
 
-    $booking = Reservation::factory()->create();
+    $reservation = Reservation::factory()->create([
+        'user_id' => $user->id
+    ]);
 
     Sanctum::actingAs($user);
 
-    $response = $this->postJson('/api/reservations//cancel', [
-        'station_id' => $station->id
-    ]);
+    $response = $this->patchJson("/api/reservations/{$reservation->id}/cancel");
 
-    $response->assertStatus(201);
+    $response->assertStatus(200)->assertJson(['message' => 'Reservation cancelled successfully']);;
 
 });
