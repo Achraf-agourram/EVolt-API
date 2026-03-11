@@ -48,3 +48,25 @@ test('search filters stations by location', function () {
     $response->assertStatus(200)->assertJsonCount(1);
 
 });
+
+test('search filters by city and location', function () {
+    $user = User::factory()->create();
+    Sanctum::actingAs($user);
+
+    Station::factory()->create([
+        'city' => 'Rabat',
+        'location' => 'Center',
+        'is_available' => true
+    ]);
+
+    Station::factory()->create([
+        'city' => 'Rabat',
+        'location' => 'Airport',
+        'is_available' => true
+    ]);
+
+    $response = $this->getJson('/api/stations?city=Rabat&location=Center');
+
+    $response->assertStatus(200)->assertJsonCount(1);
+
+});
