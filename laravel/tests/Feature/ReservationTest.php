@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Reservation;
 use App\Models\Station;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -19,6 +20,22 @@ test('user can book', function () {
         'station_id' => $station->id,
         'start_time' => now()->addHour(),
         'end_time' => now()->addHours(2),
+    ]);
+
+    $response->assertStatus(201);
+
+});
+
+test('user cancel booking', function () {
+
+    $user = User::factory()->create();
+
+    $booking = Reservation::factory()->create();
+
+    Sanctum::actingAs($user);
+
+    $response = $this->postJson('/api/reservations//cancel', [
+        'station_id' => $station->id
     ]);
 
     $response->assertStatus(201);
