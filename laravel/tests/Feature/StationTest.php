@@ -97,3 +97,23 @@ test('admin can create station', function () {
     ]);
 
 });
+
+test('client cannot create station', function () {
+    $user = User::factory()->create(['role' => 'client']);
+    Sanctum::actingAs($user);
+
+    $connectorType = ConnectorType::factory()->create();
+
+    $data = [
+        'name' => 'FastCharge Station',
+        'city' => 'Rabat',
+        'location' => 'centre',
+        'connector_type_id' => $connectorType->id,
+        'power' => 50,
+        'is_available' => true
+    ];
+
+    $response = $this->postJson('/api/station', $data);
+
+    $response->assertStatus(403);
+});
