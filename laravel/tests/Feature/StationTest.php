@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\ConnectorType;
 use App\Models\Station;
 use App\Models\Reservation;
 use App\Models\User;
@@ -68,5 +69,31 @@ test('search filters by city and location', function () {
     $response = $this->getJson('/api/stations?city=Rabat&location=Center');
 
     $response->assertStatus(200)->assertJsonCount(1);
+
+});
+
+test('admin can create station', function () {
+    $user = User::factory()->create(['role' => 'admin']);
+    Sanctum::actingAs($user);
+
+    $connectorType = ConnectorType::factory()->create();
+
+    $data = [
+        'name' => 'FastCharge Station',
+        'city' => 'Rabat',
+        'location' => 'centre',
+        'connector_type_id' => $connectorType->id,
+        'power' => 50,
+        'is_available' => true
+    ];
+
+    $response = $this->postJson('/api/station', $data);
+
+    $response->assertStatus(201);
+
+    $this->assertDatabaseHas('stations', [
+        'name' => 'FastCharge Station',
+        'city' => 'Rabat'
+    ]);
 
 });
