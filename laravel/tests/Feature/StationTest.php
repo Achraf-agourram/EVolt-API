@@ -194,3 +194,17 @@ test('cannot delete station with active reservations', function () {
     $response->assertStatus(400);
 
 });
+
+test('client cannot delete station', function () {
+
+    $client = User::factory()->create(['role' => 'client']);
+
+    Sanctum::actingAs($client);
+
+    $station = Station::factory()->create();
+
+    $response = $this->deleteJson("/api/station/{$station->id}");
+
+    $response->assertStatus(403);
+
+});
