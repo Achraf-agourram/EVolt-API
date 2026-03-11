@@ -157,3 +157,40 @@ test('client cannot update station', function () {
     $response->assertStatus(403);
 
 });
+
+test('admin can delete station with no reservations', function () {
+
+    $admin = User::factory()->create(['role' => 'admin']);
+
+    Sanctum::actingAs($admin);
+
+    $station = Station::factory()->create();
+
+    $response = $this->deleteJson("/api/station/{$station->id}");
+
+    $response->assertStatus(200);
+
+    $this->assertDatabaseMissing('stations', [
+        'id' => $station->id
+    ]);
+
+});
+
+test('cannot delete station with active reservations', function () {
+
+    $admin = User::factory()->create(['role' => 'admin']);
+
+    Sanctum::actingAs($admin);
+
+    $station = Station::factory()->create();
+
+    Reservation::factory()->create([
+        'station_id' => $station->id,
+        'status' => 'reserved'
+    ]);
+
+    $response = $this->deleteJson("/api/station/{$station->id}");
+
+    $response->assertStatus(400);
+
+});
