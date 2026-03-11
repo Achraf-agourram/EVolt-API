@@ -40,12 +40,7 @@ test('user can login', function () {
 
 test('user can logout', function () {
 
-    $user = User::create([
-        'name' => 'anas',
-        'email' => 'test@test.com',
-        'password' => '12345678',
-        'role' => 'client'
-    ]);
+    $user = User::factory()->create();
 
     Sanctum::actingAs($user);
 
