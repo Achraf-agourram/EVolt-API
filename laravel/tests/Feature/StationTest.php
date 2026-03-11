@@ -20,10 +20,30 @@ test('search filters stations by city', function () {
         'city' => 'Casablanca',
         'is_available' => true
     ]);
-    
+
     Sanctum::actingAs($user);
 
     $response = $this->getJson('/api/stations?city=Rabat');
+
+    $response->assertStatus(200)->assertJsonCount(1);
+
+});
+
+test('search filters stations by location', function () {
+    $user = User::factory()->create();
+
+    Station::factory()->create([
+        'location' => 'Downtown',
+        'is_available' => true
+    ]);
+
+    Station::factory()->create([
+        'location' => 'Airport',
+        'is_available' => true
+    ]);
+
+    Sanctum::actingAs($user);
+    $response = $this->getJson('/api/stations?location=Downtown');
 
     $response->assertStatus(200)->assertJsonCount(1);
 
