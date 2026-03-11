@@ -19,7 +19,6 @@ test('user can register', function () {
 
 });
 
-
 test('user can login', function () {
 
     User::create([
