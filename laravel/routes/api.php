@@ -1,9 +1,9 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\ReservationController;
-use App\Http\Controllers\StationController;
-use App\Http\Controllers\StatisticsController;
+use App\Http\Controllers\Api\ReservationController;
+use App\Http\Controllers\Api\StationController;
+use App\Http\Controllers\Api\StatisticsController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/register', [AuthController::class, 'register']);
