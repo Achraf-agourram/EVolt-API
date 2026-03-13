@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\Reservation;
+use App\Models\Station;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 
@@ -18,6 +19,20 @@ class CompleteReservationJob implements ShouldQueue
 
     public function handle(): void
     {
-        //
+        $reservation = Reservation::find($this->reservation->id);
+
+        if (!$reservation) return;
+
+        $reservation->update([
+            'status' => 'completed'
+        ]);
+
+        $station = Station::find($reservation->station_id);
+
+        if ($station) {
+            $station->update([
+                'is_available' => true
+            ]);
+        }
     }
 }
