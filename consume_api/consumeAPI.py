@@ -19,7 +19,7 @@ def login(email, password):
     token = result.get("token")
     return token
 
-TOKEN = login('admin@gmail.com', 'password')
+TOKEN = login('achraf@gmail.com', 'password')
 
 
 def register():
@@ -249,3 +249,5 @@ def get_statistics():
 
     except:
         print(response.status_code)
+
+book_station(4, "2026-03-13 11:18", "2026-03-13 11:20")
