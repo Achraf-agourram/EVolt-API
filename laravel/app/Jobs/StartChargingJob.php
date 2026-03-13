@@ -7,7 +7,7 @@ use App\Models\Station;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 
-class CompleteReservationJob implements ShouldQueue
+class StartChargingJob implements ShouldQueue
 {
     use Queueable;
     protected $reservation;
@@ -17,16 +17,17 @@ class CompleteReservationJob implements ShouldQueue
         $this->reservation = $reservation;
     }
 
+    
     public function handle(): void
     {
         $reservation = Reservation::find($this->reservation->id);
 
         if (!$reservation) return;
 
-        $reservation->update(['status' => 'completed']);
+        $reservation->update(['status' => 'charging']);
 
         $station = Station::find($reservation->station_id);
 
-        if ($station) $station->update(['is_available' => true]);
+        if ($station) $station->update(['is_available' => false]);
     }
 }

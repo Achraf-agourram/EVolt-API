@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreReservationRequest;
 use App\Http\Requests\UpdateReservationRequest;
+use App\Jobs\CompleteReservationJob;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,6 +24,8 @@ class ReservationController extends Controller
             'start_time' => $request->start_time,
             'end_time' => $request->end_time,
         ]);
+
+        CompleteReservationJob::dispatch($reservation)->delay($reservation->end_time);
 
         return response()->json([
             'message' => 'Reservation created successfully',
